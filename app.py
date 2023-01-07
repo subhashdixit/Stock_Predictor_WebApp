@@ -8,7 +8,8 @@ import yfinance as yf
 from sklearn.preprocessing import MinMaxScaler
 # import pandas_datareader as data
 # from keras.model import load_model
-from tensorflow.keras.models import load_model 
+# from tensorflow.keras.models import load_model 
+from tensorflow import keras
 import pickle
 import streamlit as st
 
@@ -64,7 +65,7 @@ data_training_array = scaler.fit_transform(data_training)
 
 # model = pickle.load(open('keras_model.pkl', 'rb'))
 # cv = pickle.load(open('count_vectorizer.pkl', 'rb'))
-model = load_model('keras_model.h5')
+model = keras.models.load_model('keras_model.h5')
 
 past_100_days = data_training.tail(100)
 

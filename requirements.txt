@@ -4,5 +4,7 @@ numpy
 yfinance
 matplotlib
 scikit-learn==1.0.2
-keras==2.9.0
-tenserflow==2.11.0
+# keras
+tenserflow
+pickle
+# tensorflow-cpu==1.15
