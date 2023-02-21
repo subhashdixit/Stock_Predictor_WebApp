@@ -5,6 +5,5 @@ yfinance
 matplotlib
 scikit-learn==1.0.2
 # keras
-tenserflow
+tensorflow==2.8.0
 pickle
-# tensorflow-cpu==1.15

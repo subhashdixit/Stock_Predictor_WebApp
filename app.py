@@ -91,6 +91,7 @@ scale_factor = 1/scaler.scale_
 y_pred = y_pred *scale_factor
 y_test = y_test *scale_factor
 
+st.write(y_pred)
 st.subheader('Predictions vs Original')
 fig2 = plt.figure(figsize=(12,6))
 plt.plot(y_test, 'b', label = 'Original Price')
