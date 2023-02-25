@@ -1,12 +1,16 @@
 # Stock_Predictor_WebApp
-This help will show the basic statistics of any stock and graphical analysis. It will also predict the stock price and compared with original in the graph.
+It  will show the predicted price, technical analysis plots and strategy with basic statistics of selected stock.
+
+## Steps to run the code through localhost:
 
 Setting up virtual environment
 ```
 Adding virtual env : python -m venv ./venv
 Actiavting virtual env : .\venv\Scripts\Activate.ps1
 ```
-Git commands
+After the environment setup, install the dependcies from requirements.txt. Then, run the app.py file using the command "streamlit run .\app.py"
+
+## Git commands
 
 If you are starting a project and you want to use git in your project
 ```
