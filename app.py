@@ -67,10 +67,10 @@ if btn:
     t.trend_pie_chart(df)
     st.pyplot(fig)
 
-    # st.markdown("### Volume Plot")
-    # fig= plt.figure(figsize=(20,10))
-    # t.volume_plot(df)
-    # st.pyplot(fig)
+    st.markdown("### Volume Plot")
+    fig= plt.figure(figsize=(20,10))
+    t.volume_plot(df)
+    st.pyplot(fig)
 
 else:
     st.write('Please click on the submit to get the analysis') #displayed when the button is unclicked

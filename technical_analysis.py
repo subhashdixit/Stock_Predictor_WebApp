@@ -8,11 +8,12 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def calculated_df(df):
+    df['Date'] = df.index
     df['Day_Perc_Change'] = df['Adj Close'].pct_change()*100
     df.dropna(inplace= True)
     df['Trend']= np.zeros(df['Day_Perc_Change'].count())
     df['Trend']= df['Day_Perc_Change'].apply(lambda x:trend(x))
-    return df 
+    return df
 
 def last_2_years_price_plot(df):
     df['Adj Close'].plot()
@@ -57,7 +58,10 @@ def trend_pie_chart(df):
     plt.pie(calculated_df(df)['Trend'].value_counts(), labels = pie_label, autopct = '%1.1f%%', radius = 2)
     plt.show()
 
-# def volume_plot(df):
-#     plt.stem(calculated_df(df)['Date'], calculated_df(df)['Day_Perc_Change'])
-#     (calculated_df(df)/1000000).plot(figsize = (15, 7.5), color = 'green', alpha = 0.5)
-# Daily volume of trade has been reduced in scale to match with the daily return scale
+def volume_plot(df):
+    # Daily volume of trade has been reduced in scale to match with the daily return scale
+    calculated_data = calculated_df(df)
+    plt.stem(calculated_data['Date'], calculated_data['Day_Perc_Change'])
+    (calculated_data['Volume']/1000000).plot(figsize = (15, 7.5), color = 'green', alpha = 0.5)
+    plt.show()
+    
