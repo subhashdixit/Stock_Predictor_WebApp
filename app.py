@@ -13,6 +13,10 @@ import datetime
 # import pickle
 import streamlit as st
 import model_building as m
+import technical_analysis as t
+import matplotlib.pyplot as plt
+import mpld3
+import streamlit.components.v1 as components
 
 
 
@@ -31,7 +35,7 @@ if btn:
 
 
     st.markdown("### Original vs predicted close price")
-    fig= plt.figure(figsize=(20,8))
+    fig= plt.figure(figsize=(20,10))
     sns.lineplot(data=plotdf)
     st.pyplot(fig)
 
@@ -41,9 +45,35 @@ if btn:
     for i,j in zip(st.tabs(list_of_days),range(10)):
         with i:
             st.write(future_predicted_values.iloc[j:j+1])
+
+
+    st.markdown("### Adj Close Price")
+    fig= plt.figure(figsize=(20,10))
+    t.last_2_years_price_plot(df)
+    st.pyplot(fig)
+
+    st.markdown("### Daily Percentage Changes")
+    fig= plt.figure(figsize=(20,10))
+    t.daily_percent_change_plot(df)
+    st.pyplot(fig)
+    
+    st.markdown("### Daily Percentage Changes Histogram")
+    fig= plt.figure(figsize=(20,10))
+    t.daily_percent_change_histogram(df)
+    st.pyplot(fig)
+
+    st.markdown("### Trend Analysis")
+    fig= plt.figure(figsize=(20,10))
+    t.trend_pie_chart(df)
+    st.pyplot(fig)
+
+    # st.markdown("### Volume Plot")
+    # fig= plt.figure(figsize=(20,10))
+    # t.volume_plot(df)
+    # st.pyplot(fig)
+
 else:
     st.write('Please click on the submit to get the analysis') #displayed when the button is unclicked
 
-
-
+    
         
