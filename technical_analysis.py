@@ -7,6 +7,7 @@ import datetime
 import warnings
 from ta.trend import MACD
 from ta.momentum import RSIIndicator
+from ta.volatility import BollingerBands
 warnings.filterwarnings('ignore')
 
 def calculated_df(df):
@@ -175,3 +176,31 @@ def plot_rsi(company):
     plt.legend(loc='upper left')
     plt.show()
 
+def get_bollinger_bands(company):
+    close_prices = company['Close']
+    window = 20
+    indicator_bb = BollingerBands(close=close_prices, window=window, window_dev=2)
+
+    # Add Bollinger Bands features
+    company['Bollinger_Bands_Middle'] = indicator_bb.bollinger_mavg()
+    company['Bollinger_Bands_Upper'] = indicator_bb.bollinger_hband()
+    company['Bollinger_Bands_Lower'] = indicator_bb.bollinger_lband()
+
+    generate_buy_sell_signals(
+        lambda x, company: company['Close'].values[x] < company['Bollinger_Bands_Lower'].values[x],
+        lambda x, company: company['Close'].values[x] > company['Bollinger_Bands_Upper'].values[x],
+        company, 'Bollinger_Bands')
+
+    return company
+
+def plot_bollinger_bands(company):
+        bollinger_bands = get_bollinger_bands(company)
+
+        # fig, axs = plt.subplots(2, sharex=True, figsize=(20, 8))
+        # plot_price_and_signals(fig, company, bollinger_bands, 'Bollinger_Bands', axs)
+        plt.plot(bollinger_bands['Bollinger_Bands_Middle'], label='Middle', color='blue', alpha=0.35)
+        plt.plot(bollinger_bands['Bollinger_Bands_Upper'], label='Upper', color='green', alpha=0.35)
+        plt.plot(bollinger_bands['Bollinger_Bands_Lower'], label='Lower', color='red', alpha=0.35)
+        plt.fill_between(bollinger_bands.index, bollinger_bands['Bollinger_Bands_Lower'], bollinger_bands['Bollinger_Bands_Upper'], alpha=0.1)
+        plt.legend(loc='upper left')
+        plt.show()

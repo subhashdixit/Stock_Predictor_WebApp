@@ -19,6 +19,7 @@ import mpld3
 import streamlit.components.v1 as components
 from ta.trend import MACD
 from ta.momentum import RSIIndicator
+from ta.volatility import BollingerBands
 
 
 with st.sidebar:
@@ -108,6 +109,21 @@ if btn:
     st.write(" ***:blue[Strategy:]:***")
     st.write(":red[Sell  Signal:] When RSI increases above 70%")
     st.write(":green[Buy Signal:] When RSI decreases below 30%.")
+
+
+    st.markdown("## Bollinger Indicator")
+
+    fig= plt.figure(figsize=(20,10))
+    t.plot_price_and_signals(t.get_bollinger_bands(df),'Bollinger_Bands')
+    st.pyplot(fig)
+
+    fig= plt.figure(figsize=(20,10))
+    t.plot_bollinger_bands(df)
+    st.pyplot(fig)
+
+    st.write(" ***:blue[Strategy:]:***")
+    st.write(":red[Sell  Signal:] As soon as the market price touches the upper Bollinger band")
+    st.write(":green[Buy Signal:] As soon as the market price touches the lower Bollinger band")
 
 else:
     st.write('Please click on the submit to get the analysis') #displayed when the button is unclicked
