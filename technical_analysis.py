@@ -6,6 +6,7 @@ import yfinance as yf
 import datetime
 import warnings
 from ta.trend import MACD
+from ta.momentum import RSIIndicator
 warnings.filterwarnings('ignore')
 
 def calculated_df(df):
@@ -118,7 +119,8 @@ def get_macd(company):
     return company
 
 def plot_price_and_signals(company, strategy):
-    data = get_macd(company)
+    # data = get_macd(company)
+    data = company
     last_signal_val = data[f"{strategy}_Last_Signal"].values[-1]
     last_signal = 'Unknown' if not last_signal_val else last_signal_val
     title = f'Close Price Buy/Sell Signals using {strategy}.  Last Signal: {last_signal}'
@@ -137,10 +139,6 @@ def plot_price_and_signals(company, strategy):
 
 def plot_macd(company):
     macd = get_macd(company)
-    # Create and plot the graph
-    # fig, axs = plt.subplots(2, sharex=True, figsize=(20,8))
-    # plot_price_and_signals(fig, company, macd, 'MACD', axs)
-    # plt.figure(figsize=(20,8))
     plt.plot(macd['MACD'], label=' MACD', color = 'green')
     plt.plot(macd['MACD_Signal'], label='Signal Line', color='orange')
     positive = macd['MACD_Histogram'][(macd['MACD_Histogram'] >= 0)]
@@ -148,6 +146,32 @@ def plot_macd(company):
     plt.bar(positive.index, positive, color='green')
     plt.bar(negative.index, negative, color='red')    
     plt.legend(loc='upper left')
-    # axs[1].grid()
-    # print(os.path.abspath(image))
     plt.show()
+
+def get_rsi(company):
+    close_prices = company['Close']
+    # dataframe = company.technical_indicators
+    rsi_time_period = 20
+
+    rsi_indicator = RSIIndicator(close_prices, rsi_time_period)
+    company['RSI'] = rsi_indicator.rsi()
+
+    low_rsi = 40
+    high_rsi = 70
+
+    generate_buy_sell_signals(
+        lambda x, company: company['RSI'].values[x] < low_rsi,
+        lambda x, company: company['RSI'].values[x] > high_rsi,
+    company, 'RSI')
+
+    return company
+
+def plot_rsi(company):
+    rsi = get_rsi(company)
+    low_rsi = 40
+    high_rsi = 70
+    plt.fill_between(rsi.index, y1=low_rsi, y2=high_rsi, color='#adccff', alpha=0.3)
+    plt.plot(rsi['RSI'], label='RSI', color='blue', alpha=0.35)
+    plt.legend(loc='upper left')
+    plt.show()
+

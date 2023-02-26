@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import mpld3
 import streamlit.components.v1 as components
 from ta.trend import MACD
+from ta.momentum import RSIIndicator
 
 
 with st.sidebar:
@@ -81,11 +82,9 @@ if btn:
     st.markdown("# Technical Analysis")
 
     st.markdown("## MACD Indicator")
-
     
     fig= plt.figure(figsize=(20,10))
-    t.plot_price_and_signals(df,'MACD')
-    # t.plot_macd(df)
+    t.plot_price_and_signals(t.get_macd(df),'MACD')
     st.pyplot(fig)
 
     fig= plt.figure(figsize=(20,10))
@@ -96,7 +95,19 @@ if btn:
     st.write(":red[Sell  Signal:] The cross over: When the MACD line is below the signal line.")
     st.write(":green[Buy Signal:] The cross over: When the MACD line is above the signal line.")
 
-    
+    st.markdown("## RSI Indicator")
+
+    fig= plt.figure(figsize=(20,10))
+    t.plot_price_and_signals(t.get_rsi(df),'RSI')
+    st.pyplot(fig)
+
+    fig= plt.figure(figsize=(20,10))
+    t.plot_rsi(df)
+    st.pyplot(fig)
+
+    st.write(" ***:blue[Strategy:]:***")
+    st.write(":red[Sell  Signal:] When RSI increases above 70%")
+    st.write(":green[Buy Signal:] When RSI decreases below 30%.")
 
 else:
     st.write('Please click on the submit to get the analysis') #displayed when the button is unclicked
