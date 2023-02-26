@@ -17,7 +17,7 @@ import technical_analysis as t
 import matplotlib.pyplot as plt
 import mpld3
 import streamlit.components.v1 as components
-
+from ta.trend import MACD
 
 
 with st.sidebar:
@@ -71,6 +71,32 @@ if btn:
     fig= plt.figure(figsize=(20,10))
     t.volume_plot(df)
     st.pyplot(fig)
+
+    st.markdown("### Volatility Plot")
+    fig= plt.figure(figsize=(20,10))
+    t.volatility_plot(df)
+    st.pyplot(fig)
+
+
+    st.markdown("# Technical Analysis")
+
+    st.markdown("## MACD Indicator")
+
+    
+    fig= plt.figure(figsize=(20,10))
+    t.plot_price_and_signals(df,'MACD')
+    # t.plot_macd(df)
+    st.pyplot(fig)
+
+    fig= plt.figure(figsize=(20,10))
+    t.plot_macd(df)
+    st.pyplot(fig)
+
+    st.write(" ***:blue[Strategy:]:***")
+    st.write(":red[Sell  Signal:] The cross over: When the MACD line is below the signal line.")
+    st.write(":green[Buy Signal:] The cross over: When the MACD line is above the signal line.")
+
+    
 
 else:
     st.write('Please click on the submit to get the analysis') #displayed when the button is unclicked

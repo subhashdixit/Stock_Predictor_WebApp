@@ -8,4 +8,5 @@ scikit-learn==1.0.2
 keras
 tensorflow==2.11.0
 mpld3
+ta==0.10.2
 # pickle
